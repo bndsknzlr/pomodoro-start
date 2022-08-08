@@ -62,7 +62,7 @@ def count_down(count):
     # counting
     if count > 0 and reps < 8:
         global timer_test
-        timer_test = window.after(1, count_down, count - 1)
+        timer_test = window.after(1000, count_down, count - 1)
     elif count == 0:
         reps += 1
         if reps >= 1:
