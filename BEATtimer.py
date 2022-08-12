@@ -4,11 +4,11 @@ import math
 
 # ---------------------------- CONSTANTS ------------------------------- #
 
-PINK = "#e2979c"
-RED = "#e7305b"
-GREEN = "#9bdeac"
-YELLOW = "#f7f5dd"
-FONT_NAME = "Courier"
+PINK = "#ef5b0c"
+RED = "red"
+GREEN = "black"
+YELLOW = "#fefbf6"
+FONT_NAME = "Gotham"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
@@ -27,7 +27,7 @@ def reset_timer():
     reps = 0
     window.after_cancel(timer_test)
     canvas.itemconfig(timer_text, text="00:00")
-    timer_label.configure(text="Timer", bg=YELLOW, fg=GREEN)
+    timer_label.configure(text="TIMER", bg=YELLOW, fg=GREEN)
     checkmark_label.config(text="", bg=YELLOW, fg=GREEN)
 
 
@@ -36,7 +36,7 @@ def reset_timer():
 
 def start_timer():
     count_down(WORK_MIN*60)
-    timer_label.configure(text="Work", bg=YELLOW, fg=GREEN)
+    timer_label.configure(text="WORK", bg=YELLOW, fg=GREEN)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
@@ -62,7 +62,7 @@ def count_down(count):
     # counting
     if count > 0 and reps < 8:
         global timer_test
-        timer_test = window.after(1000, count_down, count - 1)
+        timer_test = window.after(1, count_down, count - 1)
     elif count == 0:
         reps += 1
         if reps >= 1:
@@ -71,20 +71,20 @@ def count_down(count):
                 global check_mark
                 global checkmark_label
                 check_mark += CHECKMARK
-                checkmark_label.config(text=check_mark, bg=YELLOW, fg=GREEN)
+                checkmark_label.config(font=100, text=check_mark, bg=YELLOW, fg=PINK)
                 checkmark_label.grid(row=3, column=1)
             else:
                 pass
         if reps not in work_list:
             if reps in pause_list:
                 count = short_break_sec
-                timer_label.configure(text="Break", bg=YELLOW, fg=PINK)
+                timer_label.configure(text="BREAK", bg=YELLOW, fg=PINK)
             else:
                 count = long_break_sec
-                timer_label.configure(text="Break", bg=YELLOW, fg=RED)
+                timer_label.configure(text="BREAK", bg=YELLOW, fg=RED)
         else:
             count = work_sec
-            timer_label.configure(text="Work", bg=YELLOW, fg=GREEN)
+            timer_label.configure(text="WORK", bg=YELLOW, fg=GREEN)
         count_down(count)
     else:
         reset_timer()
@@ -93,33 +93,32 @@ def count_down(count):
 
 
 window = Tk()
-window.title("Pomodoro")
-window.config(padx=100, pady=50, bg=YELLOW)
+window.title("BEATtimer")
+window.config(padx=12, pady=6, bg=YELLOW)
 
 # timer label in middle of the screen
-timer_label = tkinter.Label(text="Timer", font=("Courier", 55, "normal"))
-timer_label.configure(bg=YELLOW, fg=GREEN)
+timer_label = tkinter.Label(text="TIMER", font=(FONT_NAME, 55, "bold"))
+timer_label.configure(bg=YELLOW, fg="#2c3333")
 timer_label.grid(row=0, column=1)
 
 # canvas with pic and text
-canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
-tomato_image = PhotoImage(file="tomato.png")
-canvas.create_image(100, 112, image=tomato_image)
-timer_text = canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 35, "bold"))
+canvas = Canvas(width=400, height=400, bg=YELLOW, highlightthickness=0)
+beat_image = PhotoImage(file="OBsticker.png")
+canvas.create_image(200, 200, image=beat_image)
+timer_text = canvas.create_text(200, 200, text="00:00", fill="#ef5b0c", font=("Impact", 150, "bold"))
 canvas.grid(row=1, column=1)
 
 # button that starts the timer
-start_button = tkinter.Button(text="Start", command=start_timer)
+start_button = tkinter.Button(font=FONT_NAME, text="START", command=start_timer)
 start_button.config(bg=YELLOW, highlightbackground=YELLOW)
 start_button.grid(row=2, column=0, sticky=W)
 
 # button that resets the timer
-reset_button = tkinter.Button(text="Reset", command=reset_timer)
+reset_button = tkinter.Button(font=FONT_NAME, text="RESET", command=reset_timer)
 reset_button.config(bg=YELLOW, highlightbackground=YELLOW)
 reset_button.grid(row=2, column=2, sticky=E)
 
 # # label that shows the rounds
-checkmark_label = tkinter.Label(font=55)
-checkmark_label.config(bg=YELLOW, fg=GREEN)
+checkmark_label = tkinter.Label()
 
 window.mainloop()
